@@ -2,11 +2,37 @@ version: "3"
 
 services:
   app:
+    container_name: th-app
     build:
       context: .
     ports:
-      - "127.0.0.1:8000:8000"
+      - "3601:8000"
+    command:
+      - /bin/sh
+      - -c
+      - |
+        ./manage.py migrate
+        ./manage.py setup
+        ./manage.py runserver 0.0.0.0:8000
+    environment:
+      - DATABASE_PORT=5432
+      - DATABASE_HOST=postgres
+    env_file:
+      - .env
+
+  postgres:
+    container_name: th-postgres
+    image: postgres:13
+    ports:
+      - ${DATABASE_PORT:-3602}:5432
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    env_file:
+      - .env
     volumes:
-      - ./app:/app
-    command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      - th_postgres_data:/var/lib/postgresql
+
+volumes:
+  th_postgres_data:

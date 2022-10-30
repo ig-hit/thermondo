@@ -1,14 +1,15 @@
-FROM python:3.10-alpine
+FROM python:3.10.4
 
-ENV PYTHONUNBUFFERED=1
-ENV PATH="/home/user/.local/bin:${PATH}"
+WORKDIR /usr/src/app
 
-WORKDIR /app
+RUN useradd app
+RUN chown -R app:app /usr/src/app
 
-RUN adduser -D user && chown -R user:user /app
-USER user
+COPY --chown=app:app . .
 
-COPY ./requirements.txt /requirements.txt
-RUN pip install --no-cache-dir -r /requirements.txt
+RUN pip install --upgrade pip
+RUN pip install 'poetry==1.2.1'
+RUN poetry config virtualenvs.create false
+RUN poetry install
 
-COPY ./app /app
+USER app
