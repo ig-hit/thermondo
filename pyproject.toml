@@ -22,7 +22,7 @@ django-taggit = "^3.0.0"
 
 [tool.poetry.dev-dependencies]
 coverage = "^5.5"
-mypy = "^0.971"
+mypy = "^0.982"
 black = "^22.6.0"
 
 [tool.poetry.group.dev.dependencies]
