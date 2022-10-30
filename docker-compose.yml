@@ -26,9 +26,9 @@ services:
     ports:
       - ${DATABASE_PORT:-3602}:5432
     environment:
-      - POSTGRES_DB=${DATABASE_NAME}
-      - POSTGRES_USER=${DATABASE_USER}
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=thermondo
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     env_file:
       - .env
     volumes:
